@@ -31,3 +31,7 @@ Reservation form is located in:
 localhost:9000/
 
 time selector is still a bit bugged since i did not have enough time to rewrite it :)
+
+## Hour selection
+
+In front-end hours already taken time spans are removed from hours selection further more after selecting start hour, hours which are below start and above initialy remove hours, are removed from end selection (there is known issue where for some reason user can select end hours as 0, i suspect this has to do with fact that time picker module is not fully transfered to vue 3)
