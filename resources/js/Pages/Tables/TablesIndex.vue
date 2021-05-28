@@ -7,8 +7,8 @@
         </template>
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <button v-if="!creating" @click="creating = !creating">Add new</button>
-                <button v-else @click="creating = !creating">Cancel</button>
+                <div class="btn" v-if="!creating" @click="creating = !creating">Add new</div>
+                <div class="btn" v-else @click="creating = !creating">Cancel</div>
                 <table-create v-if="creating" :restaurant-id="restaurantId" />
             </div>
         </div>
@@ -73,3 +73,31 @@ export default {
     }
 }
 </script>
+<style>
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    text-decoration: none;
+
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+</style>
