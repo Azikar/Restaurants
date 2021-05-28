@@ -17,6 +17,7 @@ class Reservations extends Model
         'table_id',
         'start_at',
         'end_at',
+        'table_id',
     ];
 
     public function contacts(): HasMany

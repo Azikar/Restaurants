@@ -2,14 +2,10 @@
 
 namespace App\Http\Services;
 
-use App\Http\Repositories\Base\BaseRepository;
 use App\Http\Repositories\Restaurants\RestaurantsRepository;
 use App\Http\Repositories\Tables\TablesRepository;
-use App\Models\Restaurants;
-use App\Models\Tables;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-
 
 class TablesServices
 {

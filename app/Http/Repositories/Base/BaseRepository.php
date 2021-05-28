@@ -41,7 +41,7 @@ class BaseRepository
         return $this->model->find($id);
     }
 
-    public function BaseQuery(): Builder
+    public function baseQuery(): Builder
     {
         return $this->model->newQuery();
     }

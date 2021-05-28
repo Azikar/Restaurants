@@ -16,7 +16,6 @@ class Restaurants extends Model
         'admin_id',
         'name',
         'max_people',
-        'tables_count',
     ];
 
     public function tables()

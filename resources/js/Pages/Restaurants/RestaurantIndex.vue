@@ -34,12 +34,10 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import Welcome from '@/Jetstream/Welcome'
-import RestourantCreate from "@/Pages/Restaurants/RestourantCreate";
 import Restaurant from "@/Pages/Restaurants/Restaurant";
 
 export default {
     components: {
-        RestourantCreate,
         AppLayout,
         Welcome,
         Restaurant
@@ -54,16 +52,9 @@ export default {
     },
     methods: {
         fetch() {
-            axios.get(Ziggy.routes["get-restaurants-list"].uri).then((response) => {
-                // console.log(response);
+            axios.get(Ziggy.routes['get-restaurants-list'].uri).then((response) => {
                 this.restaurants = response.data.data;
-                console.log(this.restaurants);
-            }).catch((error) => {
-                // console.log(error.response.data );
-                // this.errors = error.response.data.errors
-
-                // $('.newsLetterButton').removeProp('disabled');
-            });
+            }).catch((error) => {});
         }
     }
 }

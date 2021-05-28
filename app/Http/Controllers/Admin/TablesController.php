@@ -17,7 +17,6 @@ use Inertia\Inertia;
 
 class TablesController
 {
-
     private TablesServices $tablesServices;
     private TablesRepository $tablesRepository;
 

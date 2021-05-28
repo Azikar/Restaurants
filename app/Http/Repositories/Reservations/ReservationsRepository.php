@@ -30,7 +30,7 @@ class ReservationsRepository extends BaseRepository
 
     public function fetchTakenTimesTimes(string $date, int $tableId): Collection
     {
-        return $this->BaseQuery()
+        return $this->baseQuery()
             ->selectRaw(
                 'HOUR(start_at) as start, HOUR(end_at) as end'
             )
@@ -43,7 +43,7 @@ class ReservationsRepository extends BaseRepository
 
     public function fetchReservationsByRestaurant(int $restaurantId): Collection
     {
-        return $this->BaseQuery()
+        return $this->baseQuery()
             ->with([
                 'contacts' => function (HasMany $hasMany) {
                     $hasMany->select([
@@ -73,5 +73,35 @@ class ReservationsRepository extends BaseRepository
                 'reservations.start_at',
                 'reservations.end_at'
             ])->get();
+    }
+
+    public function existsInTimeSpan(int $tableId, string $start, string $end): bool
+    {
+        return $this->baseQuery()
+            ->where([
+                ['start_at', '<', $end],
+                ['end_at', '>', $start],
+                ['table_id', $tableId]
+            ])->exists();
+    }
+
+    public function getAmountOfPeopleInTimeSpan(int $restaurantId, string $start, string $end): array
+    {
+        return $this->baseQuery()
+            ->selectRaw('(SELECT COUNT(id) from reservation_contacts
+            where `reservations`.`id` = `reservation_contacts`.`reservation_id`)
+            as seatsBooked')
+            ->join('tables', function (JoinClause $joinClause) {
+                $joinClause->on('reservations.table_id', '=', 'table_id');
+            })
+            ->join('restaurants', function (JoinClause $joinClause) {
+                $joinClause->on('restaurants.id', '=', 'tables.restaurant_id');
+            })
+            ->distinct('reservations.id')
+            ->where([
+                ['start_at', '<', $end],
+                ['end_at', '>', $start],
+                ['restaurant_id', '=', $restaurantId]
+            ])->pluck('seatsBooked')->toArray();
     }
 }

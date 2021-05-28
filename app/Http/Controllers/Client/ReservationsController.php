@@ -1,27 +1,27 @@
 <?php
 namespace App\Http\Controllers\Client;
 
-use App\Http\Controllers\Controller;
-use App\Http\Repositories\Reservations\ReservationsRepository;
-use App\Http\Repositories\Restaurants\RestaurantsRepository;
-use App\Http\Requests\CreateRestaurantRequest;
+use App\Http\Requests\AllowedHoursRequest;
+use App\Http\Requests\PlaceReservationRequest;
 use App\Http\Services\GetAllowedHours;
+use App\Http\Services\PlaceOrderService;
 use Illuminate\Http\JsonResponse;
-
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Response;
-use Inertia\Inertia;
 
 class ReservationsController
 {
-    public function allowedHours(GetAllowedHours $getAllowedHours, Request $request): JsonResponse
+    public function allowedHours(GetAllowedHours $getAllowedHours, AllowedHoursRequest $request): JsonResponse
     {
-//        dd($request->all());
-//        dd($restaurantsRepository->fetchRestaurantsWithTablesForClient()->toArray());
-//        return Inertia::render('ReservationForm/ReservationForm')->with(['restaurants'=> $restaurantsRepository->fetchRestaurantsWithTablesForClient()]);
         return response()->json($getAllowedHours->getAllowedHours(
             $request->all()
         ));
+    }
+
+    public function placeReservation(PlaceReservationRequest $request,PlaceOrderService $placeOrderService): JsonResponse
+    {
+        $errors = $placeOrderService->placeOrder($request->all());
+
+        return response()->json([
+            'errors' => $errors,
+        ], empty($errors) ? 200 : 400);
     }
 }

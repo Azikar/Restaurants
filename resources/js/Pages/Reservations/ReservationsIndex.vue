@@ -30,7 +30,6 @@
                                 Actions
                             </div>
                         </div>
-                        <!--                        {{tables}}-->
                         <template v-for="reservation in reservations">
                             <reservation :reservation="reservation"/>
                         </template>
@@ -44,10 +43,7 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import Welcome from '@/Jetstream/Welcome'
-import RestourantCreate from "@/Pages/Restaurants/RestourantCreate";
 import Restaurant from "@/Pages/Restaurants/Restaurant";
-import Table from "@/Pages/Tables/Table";
-import TableCreate from "@/Pages/Tables/TableCreate";
 import Reservation from "@/Pages/Reservations/Reservation";
 
 export default {
@@ -67,9 +63,6 @@ export default {
             required: true,
         }
     },
-    created() {
-        // this.fetch();
-    },
     data() {
         return {
             creating: false,
@@ -77,16 +70,9 @@ export default {
     },
     methods: {
         fetch() {
-            axios.get(Ziggy.routes["get-restaurants-list"].uri).then((response) => {
-                // console.log(response);
+            axios.get(Ziggy.routes['get-restaurants-list'].uri).then((response) => {
                 this.restaurants = response.data.data;
-                console.log(this.restaurants);
-            }).catch((error) => {
-                // console.log(error.response.data );
-                // this.errors = error.response.data.errors
-
-                // $('.newsLetterButton').removeProp('disabled');
-            });
+            }).catch((error) => {});
         }
     }
 }

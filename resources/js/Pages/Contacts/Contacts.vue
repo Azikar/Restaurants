@@ -1,42 +1,24 @@
 <template>
     <dialog-modal @close=close() :show="show">
         <template v-slot:content>
-            <div class="row">
-                <div class="col-sm">
-                    Id
-                </div>
-                <div class="col-sm">
-                    Name
-                </div>
-                <div class="col-sm">
-                    Surname
-                </div>
-                <div class="col-sm">
-                    Phone
-                </div>
-                <div class="col-sm">
-                    Email
-                </div>
-            </div>
-            <template v-for="contact in contacts">
-                <div class="row">
-                    <div class="col-sm">
-                        {{contact.id}}
-                    </div>
-                    <div class="col-sm">
-                        {{contact.Name}}
-                    </div>
-                    <div class="col-sm">
-                        {{contact.Surname}}
-                    </div>
-                    <div class="col-sm">
-                        {{contact.phone}}
-                    </div>
-                    <div class="col-sm">
-                        {{contact.email}}
-                    </div>
-                </div>
-            </template>
+            <table style="width:100%">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                </tr>
+                <template v-for="contact in contacts">
+                <tr>
+                    <td>{{contact.id}}</td>
+                    <td>{{contact.Name}}</td>
+                    <td>{{contact.Surname}}</td>
+                    <td>{{contact.phone}}</td>
+                    <td>{{contact.email}}</td>
+                </tr>
+                </template>
+            </table>
         </template>
     </dialog-modal>
 </template>
@@ -65,31 +47,15 @@ export default {
     data() {
         return {
             show: false,
-            // contacts: {
-            //     type: object
-            //
-            // },
         }
-    },
-    created() {
-        // this.fetch();
     },
     methods: {
         open() {
-            console.log(this.contacts);
             this.show = true;
         },
         close() {
             this.show = false;
         }
-        // fetch() {
-        //     axios.get(Ziggy.routes["get-restaurants-list"].uri).then((response) => {
-        //         // console.log(response);
-        //         this.restaurants = response.data.data;
-        //         console.log(this.restaurants);
-        //     }).catch((error) => {
-        //     });
-        // }
     }
 }
 </script>

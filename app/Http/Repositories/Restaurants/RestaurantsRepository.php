@@ -7,6 +7,7 @@ use App\Models\Restaurants;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class RestaurantsRepository extends BaseRepository
@@ -27,7 +28,7 @@ class RestaurantsRepository extends BaseRepository
      */
     public function restaurantBelongsToUser(int $userId, int $restaurantId): bool
     {
-        return $this->BaseQuery()->where([
+        return $this->baseQuery()->where([
             ['admin_id', $userId],
             ['id', $restaurantId]
         ])->exists();
@@ -35,13 +36,13 @@ class RestaurantsRepository extends BaseRepository
 
     public function fetchRestaurantsWithTables(): Collection
     {
-        return $this->BaseQuery()
+        return $this->baseQuery()
             ->select([
                 'id',
                 'admin_id',
                 'name',
-                'tables_count'
             ])
+            ->addSelect(DB::raw('(select COUNT(id) from `tables` where `tables`.`restaurant_id` = `restaurants`.`id`) as tables_count'))
             ->with([
                 'tables' => function (HasMany $hasMany) {
                     return $hasMany->select([
@@ -57,7 +58,7 @@ class RestaurantsRepository extends BaseRepository
     }
     public function fetchRestaurantsWithTablesForClient(): Collection
     {
-        return $this->BaseQuery()
+        return $this->baseQuery()
             ->select([
                 'id',
                 'admin_id',
@@ -69,7 +70,7 @@ class RestaurantsRepository extends BaseRepository
                     $hasMany->select([
                         'id',
                         'restaurant_id',
-                        'table_size'
+                        'table_size',
                     ]);
                 }
             ])->get();

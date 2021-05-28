@@ -13,14 +13,8 @@ use Inertia\Inertia;
 
 class RestaurantsController
 {
-    public function __construct()
-    {
-
-    }
-
     public function index(RestaurantsRepository $restaurantsRepository): Response
     {
-//        dd($restaurantsRepository->fetchRestaurantsWithTablesForClient()->toArray());
         return Inertia::render('ReservationForm/ReservationForm')->with(['restaurants'=> $restaurantsRepository->fetchRestaurantsWithTablesForClient()]);
     }
 }

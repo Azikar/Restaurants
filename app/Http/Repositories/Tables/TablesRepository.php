@@ -25,7 +25,7 @@ class TablesRepository extends BaseRepository
 
     public function getTablesByRestaurant(int $restaurantId): Collection
     {
-        return $this->BaseQuery()
+        return $this->baseQuery()
             ->select([
                 'tables.id',
                 'tables.restaurant_id',
@@ -38,5 +38,23 @@ class TablesRepository extends BaseRepository
                 ['restaurant_id', $restaurantId],
                 ['restaurants.admin_id', Auth::id()]
             ])->get();
+    }
+
+
+    public function getTableByIdAndRestaurantId(int $tableId, int $restaurantId): Tables
+    {
+        return $this->baseQuery()
+            ->select([
+                'tables.id',
+                'tables.table_size',
+                'restaurants.max_people as capacity'
+            ])
+            ->join('restaurants', function (JoinClause $joinClause){
+                $joinClause->on('tables.restaurant_id', '=', 'restaurants.id');
+            })
+            ->where([
+                ['restaurant_id', $restaurantId],
+                ['tables.id', $tableId]
+            ])->first();
     }
 }

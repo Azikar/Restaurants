@@ -19,7 +19,6 @@ class CreateRestaurantsTable extends Migration
             $table->foreign('admin_id')->references('id')->on('users');
             $table->string('name');
             $table->integer('max_people');
-            $table->integer('tables_count');
             $table->timestamps();
         });
     }

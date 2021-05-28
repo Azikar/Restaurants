@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateRestaurantRequest extends FormRequest
+class AllowedHoursRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +14,8 @@ class CreateRestaurantRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:100',
-            'max_people' => 'required|integer|min:1',
+            'date' => 'required|integer|min:1',
+            'table' => 'required|integer|exists:tables,id',
         ];
     }
 }

@@ -14,27 +14,25 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+//todo would bee good idea to separate api and web but right now persistent session is need to auth user
 Route::get('/', [\App\Http\Controllers\Client\RestaurantsController::class, 'index'])->name('reservationForm');
-Route::post('/submit-reservation', [\App\Http\Controllers\Client\ReservationsController::class, 'allowedHours'])->name('allowedHours');
-Route::get('/admin', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::post('/allowed-hours', [\App\Http\Controllers\Client\ReservationsController::class, 'allowedHours'])->name('allowedHours');
+Route::post('/place-reservation', [\App\Http\Controllers\Client\ReservationsController::class, 'placeReservation'])->name('placeReservation');
+Route::post('/validate-contacts', [\App\Http\Controllers\Client\ReservationContactsController::class, 'checkIfCanAddContact'])->name('validateContacts');
+Route::get('/registration', function () {
+    return Inertia::render('Auth/Register');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+Route::middleware(['auth:sanctum', 'verified'])->get('/createRestaurant', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
 Route::middleware(['auth:sanctum', 'verified'])->group( function () {
     Route::get('/restaurants', function () {
         return Inertia::render('Restaurants/RestaurantIndex');
     })->name('restaurants');
 
     Route::get('/tables/{restaurant_id}', [\App\Http\Controllers\Admin\TablesController::class, 'index'])->name('tables-index');
-//    Route::get('/tables/{restaurant_id}', [\App\Http\Controllers\Admin\TablesController::class, 'show'])->name('tables-show');
     Route::get('/reservations/{restaurant_id}', [\App\Http\Controllers\Admin\ReservationsController::class, 'index'])->name('reservations-index');
 
     Route::group([

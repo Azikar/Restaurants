@@ -7,16 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class CreateTablesRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-//    public function authorize()
-//    {
-//        return true;
-//    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -24,8 +14,8 @@ class CreateTablesRequest extends FormRequest
     public function rules()
     {
         return [
-            'table_size' => 'required',
-            'restaurant_id' => 'required|integer',
+            'table_size' => 'required|integer|min:1',
+            'restaurant_id' => 'required|integer|exists:restaurants,id',
         ];
     }
 }
